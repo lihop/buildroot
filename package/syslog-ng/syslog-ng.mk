@@ -101,6 +101,14 @@ else
 SYSLOG_NG_CONF_OPTS += --disable-afsnmp
 endif
 
+ifeq ($(BR2_PACKAGE_PAHO_MQTT_C),y)
+SYSLOG_NG_DEPENDENCIES += paho-mqtt-c
+SYSLOG_NG_CONF_OPTS += --enable-mqtt
+SYSLOG_NG_CONF_OPTS += --with-libpaho-mqtt="$(STAGING_DIR)/usr"
+else
+SYSLOG_NG_CONF_OPTS += --disable-mqtt
+endif
+
 define SYSLOG_NG_INSTALL_INIT_SYSV
 	$(INSTALL) -m 0755 -D package/syslog-ng/S01syslog-ng \
 		$(TARGET_DIR)/etc/init.d/S01syslog-ng
